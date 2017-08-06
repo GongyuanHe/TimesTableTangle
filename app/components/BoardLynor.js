@@ -159,7 +159,9 @@ class BoardLynor extends Component {
                   this.props.failed();
               }
         }
-
+      }
+      if(checkCounter==0){
+          this.props.failed();
       }
     }
     checkingArray = [];
