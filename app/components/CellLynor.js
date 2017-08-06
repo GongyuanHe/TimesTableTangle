@@ -167,7 +167,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#00b300',
   },
   selectedCell: {
-    backgroundColor: '#ccccff',
+    backgroundColor: '#ffff00',
+    borderBottomWidth: 3,
+    borderRightWidth: 3,
+    borderTopWidth: 3,
+    borderLeftWidth: 3,
   },
   wrongGuess: {
     backgroundColor: '#ff4d4d',

@@ -5,6 +5,8 @@ import {
   View,
   Text,
   AsyncStorage,
+  TouchableHighlight,
+  Alert,
 } from 'react-native';
 
 import {
@@ -49,7 +51,9 @@ class HistoryComponent extends Component {
       }
 
   }
-
+  onShow = (i) =>{
+    console.log(i);
+  }
   render () {
 
       if (this.state.HistoryRecord==''){
@@ -61,24 +65,27 @@ class HistoryComponent extends Component {
         if (len <= 20){
             for (i=len;i>0;i--){
               item.push(<View key={i}>
-
+                          <TouchableHighlight underlayColor="black" onPress={()=>this.onShow} >
                             <View key={i+'_row'} style={styles.rowText}>
-                                <Text key={i+'_3'} style={styles.text}>{this.state.HistoryRecord[i-1][3]}</Text>
-                                <Text key={i+'_0'} style={styles.text}>{this.state.HistoryRecord[i-1][0]}</Text>
-                                <Text key={i+'_1'} style={styles.text}>{this.state.HistoryRecord[i-1][1]}</Text>
-                                <Text key={i+'_2'} style={styles.text}>{this.state.HistoryRecord[i-1][2]}</Text>
+                                <Text key={i+'_3'} style={[{width: BoardWidth/3.5},styles.text]}>{this.state.HistoryRecord[i-1][3]}</Text>
+                                <Text key={i+'_0'} style={[{width: BoardWidth/5.5},styles.text]}>{this.state.HistoryRecord[i-1][0]}</Text>
+                                <Text key={i+'_1'} style={[{width: BoardWidth/5.5},styles.text]}>{this.state.HistoryRecord[i-1][1]}</Text>
+                                <Text key={i+'_2'} style={[{width: BoardWidth/5.5},styles.text]}>{this.state.HistoryRecord[i-1][2]}</Text>
                             </View>
+                          </TouchableHighlight>
                         </View>);
             }
         }else{
             for(i=len;i>len-20;i--){
               item.push(<View key={i}>
+                          <TouchableHighlight underlayColor="black" onPress={this.onShow}>
                             <View key={i+'_row'} style={styles.rowText}>
-                                <Text key={i+'_3'} style={styles.text}>{this.state.HistoryRecord[i-1][3]}</Text>
-                                <Text key={i+'_0'} style={styles.text}>{this.state.HistoryRecord[i-1][0]}</Text>
-                                <Text key={i+'_1'} style={styles.text}>{this.state.HistoryRecord[i-1][1]}</Text>
-                                <Text key={i+'_2'} style={styles.text}>{this.state.HistoryRecord[i-1][2]}</Text>
+                                <Text key={i+'_3'} style={[{width: BoardWidth/3.5},styles.text]}>{this.state.HistoryRecord[i-1][3]}</Text>
+                                <Text key={i+'_0'} style={[{width: BoardWidth/5.5},styles.text]}>{this.state.HistoryRecord[i-1][0]}</Text>
+                                <Text key={i+'_1'} style={[{width: BoardWidth/5.5},styles.text]}>{this.state.HistoryRecord[i-1][1]}</Text>
+                                <Text key={i+'_2'} style={[{width: BoardWidth/5.5},styles.text]}>{this.state.HistoryRecord[i-1][2]}</Text>
                             </View>
+                          </TouchableHighlight>
                         </View>);
             }
         }

@@ -68,7 +68,7 @@ class HomeScreen extends Component {
               containerStyle={styles.buttonContainer}
               onPress={ () => this.setState({visibleModal: 2})}
               contentStyle={{ fontSize: BoardWidth*3/45, fontWeight: 'bold' }}>
-              High Scores
+              Records
               </Button>
 
 

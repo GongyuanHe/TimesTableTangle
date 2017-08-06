@@ -20,7 +20,7 @@ import {
 } from '../components';
 import BoardLynor from '../components/BoardLynor';
 import RecordModalComponent from '../components/RecordModalComponent';
-
+import GameFailedComponent from '../components/GameFailedComponent';
 
 const formatTime = Timer.formatTime;
 
@@ -119,13 +119,18 @@ class MainLynor extends Component {
     this.Modal.onGameFinished();
   }
 
+  onFailed = () =>{
+    this.timer.stop();
+    this.failedModal.onGameFailed();
+  }
+
   render() {
     const { navigate } = this.props.navi;
     return (
       <View style={styles.container} >
         <View style={styles.header} >
           <Icon
-              name='arrow-circle-left'
+              name='home'
               color='#3498db'
               size={BoardWidth/8}
               onPress={() => navigate('Home')}/>
@@ -136,8 +141,9 @@ class MainLynor extends Component {
             size={BoardWidth/8}
             onPress={() => navigate('Setting')}/>
         </View>
-        <BoardLynor size={this.props.size} level={this.props.level} finish={this.onFinish} model={this.props.model} />
+        <BoardLynor size={this.props.size} level={this.props.level} finish={this.onFinish} model={this.props.model} failed={this.onFailed}/>
         <RecordModalComponent ref={ref => this.Modal = ref} navi={this.props.navi} elapsedTime = {this.state.TimeRecord}/>
+        <GameFailedComponent ref={ref => this.failedModal = ref} navi={this.props.navi} />
       </View>
     );
   }

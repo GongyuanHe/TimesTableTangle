@@ -44,6 +44,7 @@ class BoardLynor extends Component {
       wrongAnswerArray: [],
       wrong: 0,
       right: 0,
+      checkCounter: 3,
 
     };
 
@@ -54,6 +55,9 @@ class BoardLynor extends Component {
       return true;
     }
     if(this.state.NumberArray !== nextState.NumberArray){
+      return true;
+    }
+    if(this.state.checkCounter !== nextState.checkCounter){
       return true;
     }
     if(this.props.model==0){
@@ -91,6 +95,11 @@ class BoardLynor extends Component {
   }
 
   onChecking = () => {
+    let checkCounter= this.state.checkCounter;
+    checkCounter=checkCounter-1;
+    this.setState({
+      checkCounter: checkCounter,
+    });
     let wrong = this.state.wrong;
     let right = this.state.right;
     let size = this.props.size;
@@ -100,7 +109,9 @@ class BoardLynor extends Component {
     let wrongAnswerArray = this.state.wrongAnswerArray;
     let userInputArray=this.state.userInputArray;
     if ((this.state.selections.every( x => x=='' ))) {
-
+      if(checkCounter==0){
+          this.props.failed();
+      }
     }else {
       for (let j= 0;j < this.state.userInputArray.length;j++){
         if(this.state.userInputArray[j] !== 0 && this.state.userInputArray[j]!==''){
@@ -132,8 +143,7 @@ class BoardLynor extends Component {
               let accuracy = right/(right+wrong);
               if (fixNumberArray.every( x => x==1 )){
                    this.props.finish(size,accuracy,today);
-              }
-              if(this.props.model==0){
+              }else if(this.props.model==0){
                 let quickGame=0;
                 for(let i=0;i<size*size;i++){
                   if (fixNumberArray[i]==1 && ( i<size || i % size==0 ) ){
@@ -142,7 +152,11 @@ class BoardLynor extends Component {
                 }
                 if ( quickGame==(size*2-1)){
                   this.props.finish(size,accuracy,today);
+                }else if(checkCounter==0){
+                    this.props.failed();
                 }
+              }else if(checkCounter==0){
+                  this.props.failed();
               }
         }
 
@@ -341,9 +355,38 @@ class BoardLynor extends Component {
 
   }
   onCellSelect = (index) => {
+
+
+
     let currentSelection=index;
     let previousSelection = '';
     let selections = this.state.selections;
+
+    let userInputArray = this.state.userInputArray;
+    let wrongAnswerArray = this.state.wrongAnswerArray;
+    if ((this.state.selections.every( x => x=='' ))){
+
+    }else {
+      let userInput = this.state.userInputArray[currentSelection];
+      if( userInput == 0){
+        userInput='';
+      }
+      if ( wrongAnswerArray[currentSelection] == true ){
+        userInput='';
+        wrongAnswerArray[currentSelection] = false;
+      }
+      userInputArray[currentSelection] = userInput;
+      this.setState({
+            userInput: userInput,
+            userInputArray : userInputArray,
+            wrongAnswerArray : wrongAnswerArray,
+      });
+      this.cells[currentSelection].setUserInputState(this.state.userInputArray[currentSelection]);
+      this.cells[currentSelection].setWrongState(this.state.wrongAnswerArray[currentSelection]);
+      userInputArray = [];
+      wrongAnswerArray = [];
+    }
+
     if ((selections.every( x => x=='' ))){
 
     }else{
@@ -528,7 +571,7 @@ class BoardLynor extends Component {
                 <TouchableHighlight underlayColor="black" onPress={this.onDelete}>
                    <View style = {styles.buttonContainer}>
                            <Icon
-                             name='times'
+                             name='arrow-circle-left'
                              color='white'
                              size={BoardWidth/8}/>
                    </View>
@@ -538,7 +581,9 @@ class BoardLynor extends Component {
                            <Icon
                              name='check-circle-o'
                              color='white'
-                             size={BoardWidth/8}/>
+                             size={BoardWidth/8}
+                             style = {{position: 'absolute'}}/>
+                           <Text style = {styles.checkCounter}>{this.state.checkCounter}</Text>
                    </View>
                 </TouchableHighlight>
            </View>
@@ -577,6 +622,14 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  checkCounter: {
+    position: 'absolute',
+    right: 2,
+    bottom: 0,
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: BoardWidth/20,
   }
 })
 
