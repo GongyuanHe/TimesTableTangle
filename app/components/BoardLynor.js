@@ -45,6 +45,7 @@ class BoardLynor extends Component {
       wrong: 0,
       right: 0,
       checkCounter: 3,
+      Screenshot:[],
 
     };
 
@@ -97,6 +98,7 @@ class BoardLynor extends Component {
   onChecking = () => {
     let checkCounter= this.state.checkCounter;
     checkCounter=checkCounter-1;
+    let Screenshot=this.state.Screenshot;
     this.setState({
       checkCounter: checkCounter,
     });
@@ -104,7 +106,7 @@ class BoardLynor extends Component {
     let right = this.state.right;
     let size = this.props.size;
     let today = new Date();
-    let checkingArray = this.state.checkingArray;
+    var checkingArray = this.state.checkingArray;
     let fixNumberArray = this.state.fixNumberArray;
     let wrongAnswerArray = this.state.wrongAnswerArray;
     let userInputArray=this.state.userInputArray;
@@ -114,7 +116,7 @@ class BoardLynor extends Component {
       }
     }else {
       for (let j= 0;j < this.state.userInputArray.length;j++){
-        if(this.state.userInputArray[j] !== 0 && this.state.userInputArray[j]!==''){
+        if(this.state.userInputArray[j] !== '' && this.state.userInputArray[j]!==''){
               let currentSelection = j;
 
               let userInput = this.state.userInputArray[currentSelection];
@@ -123,7 +125,6 @@ class BoardLynor extends Component {
                   checkingArray[currentSelection]=true;
                   fixNumberArray[currentSelection]= 1;
                   right=right+1;
-                  userInputArray[j]=0;
               }else{
                   checkingArray[currentSelection]=false;
                   wrongAnswerArray[currentSelection] = true;
@@ -140,29 +141,46 @@ class BoardLynor extends Component {
               this.cells[currentSelection].setFixedState(this.state.fixNumberArray[currentSelection]);
               this.cells[currentSelection].setAnswerState(this.state.checkingArray[currentSelection]);
               this.cells[currentSelection].setWrongState(this.state.wrongAnswerArray[currentSelection]);
-              let accuracy = right/(right+wrong);
-              if (fixNumberArray.every( x => x==1 )){
-                   this.props.finish(size,accuracy,today);
-              }else if(this.props.model==0){
-                let quickGame=0;
-                for(let i=0;i<size*size;i++){
-                  if (fixNumberArray[i]==1 && ( i<size || i % size==0 ) ){
-                    quickGame++;
-                  }
-                }
-                if ( quickGame==(size*2-1)){
-                  this.props.finish(size,accuracy,today);
-                }else if(checkCounter==0){
-                    this.props.failed();
-                }
-              }else if(checkCounter==0){
-                  this.props.failed();
-              }
         }
       }
-      if(checkCounter==0){
+    }
+    let accuracy = right/(right+wrong);
+    var a=new Array();
+    var b=new Array();
+    var c=new Array();
+    a=this.state.checkingArray.slice(0);
+    b=this.state.wrongAnswerArray.slice(0);
+    c=this.state.userInputArray.slice(0);
+    Screenshot[5].push(a);
+    Screenshot[6].push(b);
+    Screenshot[7].push(c);
+    Screenshot[8]=checkCounter;
+    this.setState({
+      Screenshot: Screenshot,
+    });
+    console.log(this.state.Screenshot[3]);
+    if (fixNumberArray.every( x => x==1 )){
+         Screenshot[5]=Screenshot[5].join('-');
+         Screenshot[6]=Screenshot[6].join('-');
+         Screenshot[7]=Screenshot[7].join('-');
+         this.props.finish(size,accuracy,today,Screenshot[0],Screenshot[1],Screenshot[2],Screenshot[3],Screenshot[4],Screenshot[5],Screenshot[6],Screenshot[7],Screenshot[8]);
+    }else if(this.props.model==0){
+      let quickGame=0;
+      for(let i=0;i<size*size;i++){
+        if (fixNumberArray[i]==1 && ( i<size || i % size==0 ) ){
+          quickGame++;
+        }
+      }
+      if ( quickGame==(size*2-1)){
+        Screenshot[5]=Screenshot[5].join('-');
+        Screenshot[6]=Screenshot[6].join('-');
+        Screenshot[7]=Screenshot[7].join('-');
+        this.props.finish(size,accuracy,today,Screenshot[0],Screenshot[1],Screenshot[2],Screenshot[3],Screenshot[4],Screenshot[5],Screenshot[6],Screenshot[7],Screenshot[8]);
+      }else if(checkCounter==0){
           this.props.failed();
       }
+    }else if(checkCounter==0){
+        this.props.failed();
     }
     checkingArray = [];
     fixNumberArray = [];
@@ -262,7 +280,7 @@ class BoardLynor extends Component {
 
     let userInputArray=[],len1 = this.state.size,i=0;
     for ( i = 0 ; i < len1 * len1 ; i++ ){
-      userInputArray.push(0);
+      userInputArray.push('');
     }
     this.setState({
       userInputArray : userInputArray,
@@ -284,8 +302,8 @@ class BoardLynor extends Component {
     let row=[],col=[];
     let random;
     let level=this.props.level;
-    let minArray = [2,2,2,2,11];
-    let maxArray = [len1,12,15,20,20]
+    let minArray = [2,2,5];
+    let maxArray = [len1,12,15]
     min = Math.ceil(minArray[level-1]);
     max = Math.floor(maxArray[level-1]);
     for(i=0;i<len1-1;i++){
@@ -323,9 +341,9 @@ class BoardLynor extends Component {
       initFixArray: fixNumberArray,
     });
 
-
+    let unselectableArray=[];
     if(this.props.model==0){
-      let unselectableArray=[];
+
       for (i=0;i<len1*len1;i++){
             if( fixNumberArray[i] ){
               unselectableArray[i]=0;
@@ -340,6 +358,18 @@ class BoardLynor extends Component {
       });
 
     }
+    let Screenshot=new Array(9);
+    Screenshot[0] = this.state.size;
+    Screenshot[1] = this.props.model;
+    Screenshot[2] = NumberArray;
+    Screenshot[3] = fixNumberArray.slice(0);
+    Screenshot[4] = unselectableArray;
+    Screenshot[5] = new Array();
+    Screenshot[6] = new Array();
+    Screenshot[7] = new Array();
+    this.setState({
+      Screenshot: Screenshot,
+    });
   }
 
   componentWillUnmount () {

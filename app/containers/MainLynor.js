@@ -63,7 +63,7 @@ class MainLynor extends Component {
     AppState.removeEventListener('change', this.handeleAppStateChange);
   }
 
-  onFinish = (size,accuracy,today) => {
+  onFinish = (size,accuracy,today,Screenshot0,Screenshot1,Screenshot2,Screenshot3,Screenshot4,Screenshot5,Screenshot6,Screenshot7,Screenshot8) => {
     this.timer.stop();
     let TimeRecord = this.timer.getElapsed();
     this.setState({
@@ -77,6 +77,15 @@ class MainLynor extends Component {
     HistoryArray.push(accuracy);
     let todayString = `${today.getMonth()+1}/${today.getDate()}/${today.getYear()%100} ${today.getHours()}:${today.getMinutes()}`;
     HistoryArray.push(todayString);
+    HistoryArray.push(Screenshot0);
+    HistoryArray.push(Screenshot1);
+    HistoryArray.push(Screenshot2);
+    HistoryArray.push(Screenshot3);
+    HistoryArray.push(Screenshot4);
+    HistoryArray.push(Screenshot5);
+    HistoryArray.push(Screenshot6);
+    HistoryArray.push(Screenshot7);
+    HistoryArray.push(Screenshot8);
     HistoryString = HistoryArray.join('|');
     HistoryArray= [];
 
@@ -167,7 +176,7 @@ const styles = StyleSheet.create({
   timer: {
     fontSize: CellSize * 3 / 4,
     alignSelf: 'center',
-    color: '#fff',
+    color: '#90daed',
     opacity: 1,
   }
 });

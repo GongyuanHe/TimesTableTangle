@@ -119,20 +119,29 @@ class CellLynor extends Component {
                       this.state.answer&&styles.rightCell,
                       this.state.wrong&&styles.wrongGuess,
                     ]}>
-                    { this.state.fixedCell || this.props.multiple ? (
-                      <Text style={[styles.fixedText,
-                                    {fontSize: cellWidth * 3 / 8}
-                                  ]} >
-                                  {this.props.CellNumber}
-                      </Text>
-                    ):(
-                      <Text style={[styles.userInputText,
-                                    {fontSize: cellWidth * 3 / 8}
-                                  ]} >
-                                  {this.state.userInput}
-                      </Text>
-                    )}
-
+                    {
+                      this.props.multiple ? (
+                        <Text style={[this.props.multiple&&styles.timesText,
+                                      {fontSize: cellWidth * 3 / 6}
+                                    ]} >
+                                    {this.props.CellNumber}
+                        </Text>
+                      ):[
+                             this.state.fixedCell ? (
+                              <Text key = '1' style={[this.state.fixedCell&&styles.fixedText,
+                                            {fontSize: cellWidth * 3 / 8}
+                                          ]} >
+                                          {this.props.CellNumber}
+                              </Text>
+                            ):(
+                              <Text key = '0' style={[styles.userInputText,
+                                            {fontSize: cellWidth * 3 / 8}
+                                          ]} >
+                                          {this.state.userInput}
+                              </Text>
+                            )
+                       ]
+                    }
         </View>
       </Touchable>
     )
@@ -159,6 +168,11 @@ const styles = StyleSheet.create({
   },
   multiple: {
     backgroundColor: '#3498db',
+  },
+  timesText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: BoardWidth/10,
   },
   fixedCell: {
     backgroundColor: '#9999ff',

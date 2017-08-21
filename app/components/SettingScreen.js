@@ -21,7 +21,7 @@ import {
   BoardWidth,
 } from './GlobalStyle';
 
-const DEMO_OPTIONS_2 = ['1','2','3','4','5'];
+const DEMO_OPTIONS_2 = ['1','2','3'];
 const smallsize = 7;
 const largesize = 10;
 
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   },
   dropdown_2_dropdown: {
     width: BoardWidth*2/3,
-    height: 208,
+    height: 126,
     borderColor: 'cornflowerblue',
     borderWidth: 2,
     borderRadius: 3,
