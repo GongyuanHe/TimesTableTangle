@@ -30,7 +30,7 @@ records=[];
           value = JSON.parse(value);
           value.forEach(function(currentValue,index){
                 value[index]=currentValue.split('|');
-                for(let i = 0 ; i < 13 ; i ++){
+                for(let i = 0 ; i < 14 ; i ++){
                       if(i==0){
                           if(value[index][i]<10){
                               value[index][i]='0'+value[index][i]+'X'+'0'+value[index][i];
@@ -40,7 +40,11 @@ records=[];
                       }else if (i==1) {
                             value[index][i]= value[index][i]+ 'sec';
                       }else if (i==2) {
-                            value[index][i]= Math.floor(value[index][i]*100) + '%';
+                            if (isNaN(Math.floor(value[index][i]*100))){
+                              value[index][i]='0%'
+                            }else{
+                              value[index][i]= Math.floor(value[index][i]*100) + '%';
+                            }
                       }else if (i==6) {
                             value[index][i]=value[index][i].split(',');
                       }else if (i==7) {
@@ -53,6 +57,12 @@ records=[];
                             value[index][i]=value[index][i].split('-');
                       }else if (i==11) {
                             value[index][i]=value[index][i].split('-');
+                      }else if (i==13) {
+                            if(value[index][i]=='true'){
+                               value[index][i]='Finished';
+                            }else{
+                               value[index][i]='Unfinished';
+                            }
                       }
                 }
           })
@@ -81,9 +91,9 @@ records=[];
                                               onPress={()=> this.onShow(currentIndex)}>
                             <View key={i+'_row'} style={styles.rowText}>
                                 <Text key={i+'_3'} style={[{width: BoardWidth/3.5},styles.text]}>{this.state.HistoryRecord[i-1][3]}</Text>
-                                <Text key={i+'_0'} style={[{width: BoardWidth/5.5},styles.text]}>{this.state.HistoryRecord[i-1][0]}</Text>
-                                <Text key={i+'_1'} style={[{width: BoardWidth/5.5},styles.text]}>{this.state.HistoryRecord[i-1][1]}</Text>
-                                <Text key={i+'_2'} style={[{width: BoardWidth/5.5},styles.text]}>{this.state.HistoryRecord[i-1][2]}</Text>
+                                <Text key={i+'_4'} style={[{width: BoardWidth/7},styles.text]}>Level {this.state.HistoryRecord[i-1][14]}</Text>
+                                <Text key={i+'_1'} style={[{width: BoardWidth/4.4},styles.text]}>{this.state.HistoryRecord[i-1][13]}</Text>
+                                <Text key={i+'_2'} style={[{width: BoardWidth/8},styles.text]}>{this.state.HistoryRecord[i-1][2]}</Text>
                             </View>
                           </TouchableHighlight>
                         </View>);
@@ -96,9 +106,9 @@ records=[];
                                               onPress={()=> this.onShow(currentIndex)}>
                             <View key={i+'_row'} style={styles.rowText}>
                                 <Text key={i+'_3'} style={[{width: BoardWidth/3.5},styles.text]}>{this.state.HistoryRecord[i-1][3]}</Text>
-                                <Text key={i+'_0'} style={[{width: BoardWidth/5.5},styles.text]}>{this.state.HistoryRecord[i-1][0]}</Text>
-                                <Text key={i+'_1'} style={[{width: BoardWidth/5.5},styles.text]}>{this.state.HistoryRecord[i-1][1]}</Text>
-                                <Text key={i+'_2'} style={[{width: BoardWidth/5.5},styles.text]}>{this.state.HistoryRecord[i-1][2]}</Text>
+                                <Text key={i+'_4'} style={[{width: BoardWidth/7},styles.text]}>Level {this.state.HistoryRecord[i-1][14]}</Text>
+                                <Text key={i+'_1'} style={[{width: BoardWidth/4.4},styles.text]}>{this.state.HistoryRecord[i-1][13]}</Text>
+                                <Text key={i+'_2'} style={[{width: BoardWidth/8},styles.text]}>{this.state.HistoryRecord[i-1][2]}</Text>
                             </View>
                           </TouchableHighlight>
                         </View>);
@@ -130,7 +140,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   text:{
-    color: 'white',
+    color: '#3498db',
     fontWeight: 'bold',
     fontSize: BoardWidth*3/80,
   },
@@ -138,7 +148,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   defaultText:{
-    color: 'white',
+    color: '#3498db',
     fontWeight: 'bold',
     fontSize: BoardWidth*3/42,
   },

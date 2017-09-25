@@ -34,6 +34,7 @@ class CheckScreenComponent extends Component {
     size++;
 
     return (
+      <View style={{justifyContent:'center', alignItems:'center'}}>
       <View style={styles.boardContainer}>
           <View style= {styles.board}>
              {
@@ -72,6 +73,7 @@ class CheckScreenComponent extends Component {
              }
           </View>
       </View>
+      </View>
     )
   }
 }
@@ -81,10 +83,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
     alignItems: 'center',
     width: BoardWidth*0.8,
+    justifyContent: 'center',
   },
   board: {
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
     flexWrap: 'wrap',
     backgroundColor: '#90daed',
     padding: 2,
@@ -109,10 +113,12 @@ const styles = StyleSheet.create({
   fixedText: {
      color: 'white',
      fontWeight: 'bold',
+     fontSize: BoardWidth*0.8/23,
   },
   userInputText: {
     color: 'white',
     fontWeight: 'bold',
+    fontSize: BoardWidth*0.8/23,
   },
   multiple: {
     backgroundColor: '#3498db',
@@ -120,7 +126,7 @@ const styles = StyleSheet.create({
   timesText: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: BoardWidth*0.8/10,
+    fontSize: BoardWidth*0.8/15,
   },
 })
 export default CheckScreenComponent;

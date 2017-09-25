@@ -78,7 +78,6 @@ class RecordModalComponent extends Component {
                source={require('../image/flower.png')}
            />
           <Text style={styles.text}>
-                Your Time: {this.state.elapsedTime}
           </Text>
           <Button
             type="primary"

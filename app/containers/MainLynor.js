@@ -54,6 +54,10 @@ class MainLynor extends Component {
     if (value1 !== null ) {
         this.setState({
           PreviousTimeRecord: value1,
+        });
+    }
+    if (value2 !== null ) {
+        this.setState({
           PreviousHistoryRecord: value2,
         });
     }
@@ -63,7 +67,7 @@ class MainLynor extends Component {
     AppState.removeEventListener('change', this.handeleAppStateChange);
   }
 
-  onFinish = (size,accuracy,today,Screenshot0,Screenshot1,Screenshot2,Screenshot3,Screenshot4,Screenshot5,Screenshot6,Screenshot7,Screenshot8) => {
+  onFinish = (size,accuracy,today,Screenshot0,Screenshot1,Screenshot2,Screenshot3,Screenshot4,Screenshot5,Screenshot6,Screenshot7,Screenshot8,Screenshot9,Screenshot10) => {
     this.timer.stop();
     let TimeRecord = this.timer.getElapsed();
     this.setState({
@@ -86,6 +90,8 @@ class MainLynor extends Component {
     HistoryArray.push(Screenshot6);
     HistoryArray.push(Screenshot7);
     HistoryArray.push(Screenshot8);
+    HistoryArray.push(Screenshot9);
+    HistoryArray.push(Screenshot10);
     HistoryString = HistoryArray.join('|');
     HistoryArray= [];
 
@@ -128,9 +134,49 @@ class MainLynor extends Component {
     this.Modal.onGameFinished();
   }
 
-  onFailed = () =>{
+  onFailed = (size,accuracy,today,Screenshot0,Screenshot1,Screenshot2,Screenshot3,Screenshot4,Screenshot5,Screenshot6,Screenshot7,Screenshot8,Screenshot9,Screenshot10) =>{
     this.timer.stop();
+    let TimeRecord = this.timer.getElapsed();
+    this.setState({
+      TimeRecord: TimeRecord,
+    })
+    let HistoryArray= [];
+    let HistoryString = '';
+    let HistoryRecordString='';
+    HistoryArray.push(size);
+    HistoryArray.push(TimeRecord);
+    HistoryArray.push(accuracy);
+    let todayString = `${today.getMonth()+1}/${today.getDate()}/${today.getYear()%100} ${today.getHours()}:${today.getMinutes()}`;
+    HistoryArray.push(todayString);
+    HistoryArray.push(Screenshot0);
+    HistoryArray.push(Screenshot1);
+    HistoryArray.push(Screenshot2);
+    HistoryArray.push(Screenshot3);
+    HistoryArray.push(Screenshot4);
+    HistoryArray.push(Screenshot5);
+    HistoryArray.push(Screenshot6);
+    HistoryArray.push(Screenshot7);
+    HistoryArray.push(Screenshot8);
+    HistoryArray.push(Screenshot9);
+    HistoryArray.push(Screenshot10);
+    HistoryString = HistoryArray.join('|');
+    HistoryArray= [];
+    if (this.state.PreviousHistoryRecord=='') {
+        HistoryArray.push(HistoryString);
+        HistoryRecordString= JSON.stringify(HistoryArray);
+
+    } else {
+        HistoryArray = JSON.parse(this.state.PreviousHistoryRecord);
+        HistoryArray.push(HistoryString);
+        HistoryRecordString= JSON.stringify(HistoryArray);
+    }
+    AsyncStorage.setItem('history',HistoryRecordString);
     this.failedModal.onGameFailed();
+  }
+
+  onThrowing = () => {
+        this.timer.stop();
+        this.failedModal.onGameFailed();
   }
 
   render() {
@@ -143,14 +189,15 @@ class MainLynor extends Component {
               color='#3498db'
               size={BoardWidth/8}
               onPress={() => navigate('Home')}/>
-          <Timer ref={ref => this.timer = ref} style={styles.timer} />
+          <Text style={styles.level}>Level {this.props.level}</Text>
           <Icon
             name='repeat'
             color='#3498db'
             size={BoardWidth/8}
             onPress={() => navigate('Setting')}/>
         </View>
-        <BoardLynor size={this.props.size} level={this.props.level} finish={this.onFinish} model={this.props.model} failed={this.onFailed}/>
+        <Timer ref={ref => this.timer = ref} style={styles.timer} />
+        <BoardLynor size={this.props.size} level={this.props.level} finish={this.onFinish} model={this.props.model} failed={this.onFailed} throwing={this.onThrowing}/>
         <RecordModalComponent ref={ref => this.Modal = ref} navi={this.props.navi} elapsedTime = {this.state.TimeRecord}/>
         <GameFailedComponent ref={ref => this.failedModal = ref} navi={this.props.navi} />
       </View>
@@ -174,10 +221,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   timer: {
-    fontSize: CellSize * 3 / 4,
+    fontSize: 1,
     alignSelf: 'center',
     color: '#90daed',
     opacity: 1,
+  },
+  level: {
+    fontSize: BoardWidth/7,
+    fontWeight: 'bold',
+    color: '#3498db',
   }
 });
 export default MainLynor;

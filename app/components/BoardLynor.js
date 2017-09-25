@@ -112,7 +112,7 @@ class BoardLynor extends Component {
     let userInputArray=this.state.userInputArray;
     if ((this.state.selections.every( x => x=='' ))) {
       if(checkCounter==0){
-          this.props.failed();
+
       }
     }else {
       for (let j= 0;j < this.state.userInputArray.length;j++){
@@ -163,7 +163,8 @@ class BoardLynor extends Component {
          Screenshot[5]=Screenshot[5].join('-');
          Screenshot[6]=Screenshot[6].join('-');
          Screenshot[7]=Screenshot[7].join('-');
-         this.props.finish(size,accuracy,today,Screenshot[0],Screenshot[1],Screenshot[2],Screenshot[3],Screenshot[4],Screenshot[5],Screenshot[6],Screenshot[7],Screenshot[8]);
+         Screenshot[9]=true;
+         this.props.finish(size,accuracy,today,Screenshot[0],Screenshot[1],Screenshot[2],Screenshot[3],Screenshot[4],Screenshot[5],Screenshot[6],Screenshot[7],Screenshot[8],Screenshot[9],Screenshot[10]);
     }else if(this.props.model==0){
       let quickGame=0;
       for(let i=0;i<size*size;i++){
@@ -175,12 +176,21 @@ class BoardLynor extends Component {
         Screenshot[5]=Screenshot[5].join('-');
         Screenshot[6]=Screenshot[6].join('-');
         Screenshot[7]=Screenshot[7].join('-');
-        this.props.finish(size,accuracy,today,Screenshot[0],Screenshot[1],Screenshot[2],Screenshot[3],Screenshot[4],Screenshot[5],Screenshot[6],Screenshot[7],Screenshot[8]);
+        Screenshot[9]=true;
+        this.props.finish(size,accuracy,today,Screenshot[0],Screenshot[1],Screenshot[2],Screenshot[3],Screenshot[4],Screenshot[5],Screenshot[6],Screenshot[7],Screenshot[8],Screenshot[9],Screenshot[10]);
       }else if(checkCounter==0){
-          this.props.failed();
+          Screenshot[5]=Screenshot[5].join('-');
+          Screenshot[6]=Screenshot[6].join('-');
+          Screenshot[7]=Screenshot[7].join('-');
+          Screenshot[9]=false;
+          this.props.failed(size,accuracy,today,Screenshot[0],Screenshot[1],Screenshot[2],Screenshot[3],Screenshot[4],Screenshot[5],Screenshot[6],Screenshot[7],Screenshot[8],Screenshot[9],Screenshot[10]);
       }
     }else if(checkCounter==0){
-        this.props.failed();
+          Screenshot[5]=Screenshot[5].join('-');
+          Screenshot[6]=Screenshot[6].join('-');
+          Screenshot[7]=Screenshot[7].join('-');
+          Screenshot[9]=false;
+          this.props.failed(size,accuracy,today,Screenshot[0],Screenshot[1],Screenshot[2],Screenshot[3],Screenshot[4],Screenshot[5],Screenshot[6],Screenshot[7],Screenshot[8],Screenshot[9],Screenshot[10]);
     }
     checkingArray = [];
     fixNumberArray = [];
@@ -358,7 +368,7 @@ class BoardLynor extends Component {
       });
 
     }
-    let Screenshot=new Array(9);
+    let Screenshot=new Array(11);
     Screenshot[0] = this.state.size;
     Screenshot[1] = this.props.model;
     Screenshot[2] = NumberArray;
@@ -367,6 +377,7 @@ class BoardLynor extends Component {
     Screenshot[5] = new Array();
     Screenshot[6] = new Array();
     Screenshot[7] = new Array();
+    Screenshot[10]=this.props.level
     this.setState({
       Screenshot: Screenshot,
     });

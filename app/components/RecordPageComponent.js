@@ -32,8 +32,7 @@ class RecordPageComponent extends Component {
                 tabBarUnderlineStyle = {{backgroundColor: '#2980b9'}}
                 tabBarTextStyle = {{fontSize: BoardWidth*3/50, fontWeight: 'bold'}}
           >
-              <BestRecordComponent tabLabel='Best Record' />
-              <HistoryComponent tabLabel='History'/>
+              <HistoryComponent tabLabel='Records'/>
           </ScrollableTabView>
       </View>
     )

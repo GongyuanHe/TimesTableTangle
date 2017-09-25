@@ -7,6 +7,7 @@ import {
   View,
   Text,
   TouchableHighlight,
+  Image,
 } from 'react-native';
 
 import Modal from 'react-native-modal';
@@ -35,8 +36,12 @@ class GameFailedComponent extends Component {
 
       <View style={{alignItems: 'center'}}>
           <Text style={styles.text}>
-                You Failed!
+                Don‘t give up!
           </Text>
+          <Image
+            style={{width: BoardWidth/2, height: BoardWidth/2}}
+            source={require('../image/face.png')}
+          />
           <Button
             type="primary"
             containerStyle={styles.buttonContainer}
@@ -98,6 +103,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: BoardWidth*3/42,
+    paddingBottom: 20,
   },
 })
 export default GameFailedComponent;

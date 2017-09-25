@@ -46,14 +46,14 @@ class HomeScreen extends Component {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-         <View style={{flex: 6,justifyContent: 'center', alignItems: 'center'}}>
+         <View style={{flex: 7,justifyContent: 'center', alignItems: 'center'}}>
              <Image
-               style={{width: BoardWidth*4/5, height: BoardWidth*328/1500}}
+               style={{width: BoardWidth*4/5, height: BoardWidth*0.8*762/583}}
                source={require('../image/logo.png')}
              />
          </View>
 
-          <View style={{flex: 4,justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{flex: 3,justifyContent: 'center', alignItems: 'center'}}>
 
               <Button
               type="primary"
