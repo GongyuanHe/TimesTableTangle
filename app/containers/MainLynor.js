@@ -26,12 +26,12 @@ const formatTime = Timer.formatTime;
 
 class MainLynor extends Component {
   constructor(props) {
-    super(props);
-    this.state = {
-      PreviousTimeRecord: '',
-      PreviousHistoryRecord: '',
-      TimeRecord: '',
-    };
+      super(props);
+      this.state = {
+        PreviousTimeRecord: '',
+        PreviousHistoryRecord: '',
+        TimeRecord: '',
+      };
   }
 
   onInit = () => {
@@ -181,6 +181,18 @@ class MainLynor extends Component {
 
   render() {
     const { navigate } = this.props.navi;
+    let range = "";
+    if (this.props.level=='1') {
+      if (this.props.size==10) {
+          range="2-10";
+      }else {
+          range="2-7";
+      }
+    }else if (this.props.level=='2'){
+          range="2-12";
+    }else {
+          range="5-15";
+    }
     return (
       <View style={styles.container} >
         <View style={styles.header} >
@@ -196,8 +208,9 @@ class MainLynor extends Component {
             size={BoardWidth/8}
             onPress={() => navigate('Setting')}/>
         </View>
-        <Timer ref={ref => this.timer = ref} style={styles.timer} />
+        <Text style={styles.range}>Range:{range}</Text>
         <BoardLynor size={this.props.size} level={this.props.level} finish={this.onFinish} model={this.props.model} failed={this.onFailed} throwing={this.onThrowing}/>
+        <Timer ref={ref => this.timer = ref} style={styles.timer} />
         <RecordModalComponent ref={ref => this.Modal = ref} navi={this.props.navi} elapsedTime = {this.state.TimeRecord}/>
         <GameFailedComponent ref={ref => this.failedModal = ref} navi={this.props.navi} />
       </View>
@@ -230,6 +243,12 @@ const styles = StyleSheet.create({
     fontSize: BoardWidth/7,
     fontWeight: 'bold',
     color: '#3498db',
+  },
+  range: {
+    fontSize: BoardWidth/18,
+    fontWeight: 'bold',
+    color: '#3498db',
+    paddingBottom: 0,
   }
 });
 export default MainLynor;

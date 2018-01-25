@@ -226,14 +226,7 @@ class BoardLynor extends Component {
     	 0,0,1,0,1,0,0,
     	 0,0,1,0,0,1,0,
     	 0,1,0,0,0,1,0,
-    	 0,1,0,0,0,0,1],
-    	[1,0,0,0,0,0,0,
-    	 0,1,0,1,0,0,0,
-    	 0,0,1,0,1,0,0,
-    	 0,1,0,0,0,1,0,
-    	 0,0,1,0,0,0,1,
-    	 0,0,0,1,0,1,0,
-    	 0,0,0,0,1,0,1]
+    	 0,1,0,0,0,0,1]
     ];
     let LargeSizePattern = [
     	[1,0,0,0,0,0,0,0,0,0,
@@ -275,17 +268,7 @@ class BoardLynor extends Component {
     	 0,0,0,1,0,0,0,0,1,0,
     	 0,0,1,0,0,0,0,0,1,0,
     	 0,0,1,0,0,0,0,0,0,1,
-    	 0,1,0,0,0,0,0,0,0,1],
-    	[1,0,0,0,0,0,0,0,0,0,
-    	 0,0,0,0,1,0,0,0,0,0,
-    	 0,0,0,1,0,1,0,0,0,0,
-    	 0,0,1,0,0,0,1,0,0,0,
-    	 0,1,0,0,0,0,0,1,0,0,
-    	 0,0,1,0,0,0,0,0,1,0,
-    	 0,0,0,1,0,0,0,0,0,1,
-    	 0,0,0,0,1,0,0,0,1,0,
-    	 0,0,0,0,0,1,0,1,0,0,
-    	 0,0,0,0,0,0,1,0,0,1]
+    	 0,1,0,0,0,0,0,0,0,1]
     ];
 
     let userInputArray=[],len1 = this.state.size,i=0;
@@ -298,7 +281,7 @@ class BoardLynor extends Component {
     let j=0,fixNumberArray=[];
     let max, min;
     min = Math.ceil(1);
-    max = Math.floor(5);
+    max = Math.floor(4);
     let patternNumber = Math.floor(Math.random() * (max - min + 1)) + min;
     if(len1==7){
       fixNumberArray = SmallSizePattern[patternNumber-1];
@@ -637,7 +620,7 @@ class BoardLynor extends Component {
 }
 const styles = StyleSheet.create({
   boardContainer: {
-    marginTop: 20,
+    marginTop: 2,
     alignItems: 'center',
     width: BoardWidth,
 
